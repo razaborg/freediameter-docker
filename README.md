@@ -22,3 +22,17 @@ The dockerfile permit to build the freeDiameter image using the following enviro
 
     docker run -it -p 3868:3868 razaborg/freediameter
 
+### Two peers
+
+To set-up a 2 peers diameter server connection, the easiest way is to use docker-compose:
+
+    docker-compose -f docker-compose.yml up -d
+
+This will set up a docker network (called 'localdomain') with 2 peers (respectively 'peer1' and 'peer2' (I won the price of originality for this, yeah.)). 
+The 2 containers will load their respectives config files from a host folder (located in /srv/freeDiameter/peerN).
+
+
+### Something else
+
+Up to you bro! 
+Use docker-compose and the config file of freeDiameter to do your magic ;-)

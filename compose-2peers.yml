@@ -1,0 +1,45 @@
+version: '3'
+
+networks:
+  localdomain:
+
+services: 
+  peer1:
+    environment:
+    - diameterID="peer1"
+    - domainName="localdomain"
+
+    container_name: peer1
+    image: freediameter
+    ports:
+    - 3868:3868
+    hostname: peer1
+    networks:
+      localdomain:
+        aliases:
+        - peer1.localdomain
+    volumes:
+    - /srv/freeDiameter/peer1:/etc/freeDiameter
+    stdin_open: true
+    tty: true
+
+  peer2:
+    environment:
+    - diameterID="peer2"
+    - domainName="localdomain"
+
+    container_name: peer2
+    image: freediameter
+    ports:
+    - 3869:3868
+    hostname: peer2
+    networks:
+      localdomain:
+        aliases:
+        - peer2.localdomain
+    volumes:
+    - /srv/freeDiameter/peer2:/etc/freeDiameter
+    stdin_open: true
+    tty: true
+
+
