@@ -6,8 +6,9 @@ networks:
 services: 
   peer1:
     environment:
-    - diameterID="peer1"
-    - domainName="localdomain"
+    - diameterID=peer1
+    - domainName=localdomain
+    - connectedToHost=peer2.localdomain
 
     container_name: peer1
     image: freediameter
@@ -18,15 +19,16 @@ services:
       localdomain:
         aliases:
         - peer1.localdomain
-    volumes:
-    - /srv/freeDiameter/peer1:/etc/freeDiameter
+    #volumes:
+    #- /srv/freeDiameter/peer1:/etc/freeDiameter
     stdin_open: true
     tty: true
 
   peer2:
     environment:
-    - diameterID="peer2"
-    - domainName="localdomain"
+    - diameterID=peer2
+    - domainName=localdomain
+    - connectedToHost=peer1.localdomain
 
     container_name: peer2
     image: freediameter
@@ -37,8 +39,8 @@ services:
       localdomain:
         aliases:
         - peer2.localdomain
-    volumes:
-    - /srv/freeDiameter/peer2:/etc/freeDiameter
+    #volumes:
+    #- /srv/freeDiameter/peer2:/etc/freeDiameter
     stdin_open: true
     tty: true
 

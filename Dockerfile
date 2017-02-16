@@ -4,8 +4,6 @@ LABEL Description="An Ubuntu-based and simple Docker image of freeDiameter"
 
 # Environement Variables:
 # - TZ: Container timezone (default: Europe/Paris)
-# - diameterID: hostname of the container (default: peer1)
-# - domainName: network domain (default: localdomain)
 
 # Updating the packages
 RUN apt-get update
@@ -27,13 +25,13 @@ RUN cmake -DCMAKE_BUILD_TYPE=Debug -DALL_EXTENSIONS=ON -DCMAKE_INSTALL_PREFIX=''
 RUN ln -snf /usr/share/zoneinfo/${TZ:-Europe/Paris} /etc/localtime \
 && echo ${TZ:-Europe/Paris} > /etc/timezone
 
-# Generating the TLS certificates
-RUN mkdir -p /etc/ssl/certs/freeDiameter \
-&& openssl req -new -batch -x509 -days 3650 -nodes -newkey rsa:1024 -out /etc/ssl/certs/freeDiameter/cert.pem -keyout /etc/ssl/certs/freeDiameter/privkey.pem -subj /CN=${diameterID:-peer1}.${domainName:-localdomain} \
-&& openssl dhparam -dsaparam -out /etc/ssl/certs/freeDiameter/dh.pem 1024
-COPY freeDiameter.conf /etc/freeDiameter/
-ENTRYPOINT freeDiameterd -dd ${params}
+
+WORKDIR /root
+RUN mkdir -p /etc/freeDiameter
+COPY freeDiameter.conf /etc/freeDiameter/ 
+COPY script.sh /root/
+RUN chmod +x /root/script.sh
+ENTRYPOINT /root/script.sh
 
 EXPOSE 3868 5658
-# RUN freeDiameterd
 
