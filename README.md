@@ -29,7 +29,7 @@ For example if you want to set-up a 2 peers diameter server connection. You can 
     docker-compose -f compose-2peers.yml up -d
 
 This will set up a docker network (called 'localdomain') with 2 peers (respectively 'peer1' and 'peer2' (I won the price of originality for this, yeah.)). 
-The 2 containers will load their respectives config files from a host folder (located in /srv/freeDiameter/peerN).
+The 2 containers will automatically generate their own specific configuration files, thanks to the script.sh starting script and their provided environment variables.
 
 
 ### Something else
